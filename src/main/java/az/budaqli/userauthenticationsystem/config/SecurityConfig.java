@@ -1,37 +1,35 @@
 package az.budaqli.userauthenticationsystem.config;
 
-import az.budaqli.userauthenticationsystem.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig{
-//    private final SecurityFilter securityFilter;
-    private final CustomUserDetailsService userDetailsService;
+public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+        return http
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/h2-console/*").permitAll()
                         .requestMatchers("/register", "/login").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
+                .oauth2Login(Customizer.withDefaults())
                 .formLogin(form -> form
                         .loginPage("/login")
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll);
-        return http.build();
+                .logout(LogoutConfigurer::permitAll)
+                .build();
+
 //        http.csrf(AbstractHttpConfigurer::disable)
 //                .cors(Customizer.withDefaults())
 //                .authorizeHttpRequests(auth -> auth
