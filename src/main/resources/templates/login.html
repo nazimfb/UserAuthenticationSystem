@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>Login</h1>
-<form th:action="@{/login}" method="post">
+<form th:action="@{/perform_login}" method="post"> <!-- Updated action URL -->
     <div>
         <label>Username:</label>
         <input type="text" name="username" />
@@ -18,5 +18,8 @@
         <button type="submit">Login</button>
     </div>
 </form>
+<div>
+    <a href="/oauth2/authorization/github">Login with GitHub</a> <!-- Link for OAuth2 login -->
+</div>
 </body>
 </html>
