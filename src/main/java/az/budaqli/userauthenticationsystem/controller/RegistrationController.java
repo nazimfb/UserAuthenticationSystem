@@ -3,17 +3,22 @@ package az.budaqli.userauthenticationsystem.controller;
 import az.budaqli.userauthenticationsystem.model.User;
 import az.budaqli.userauthenticationsystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Optional;
+
 @Controller
 @RequiredArgsConstructor
 public class RegistrationController {
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/register")
@@ -26,7 +31,7 @@ public class RegistrationController {
     public String registerUser(@ModelAttribute("user") User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        repository.save(user);
+        userRepository.save(user);
         return "redirect:/login";
     }
 

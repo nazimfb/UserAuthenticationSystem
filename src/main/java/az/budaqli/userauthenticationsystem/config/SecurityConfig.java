@@ -21,7 +21,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/h2-console/*").permitAll()
                         .requestMatchers("/home").permitAll()
                         .requestMatchers("/register", "/login").permitAll()
                         .anyRequest().authenticated()
@@ -34,7 +33,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login")
-                        .defaultSuccessUrl("/home", true)
+                        .defaultSuccessUrl("/dashboard", true)
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
